@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Daily Notes Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h2>Student Daily Notes Manager</h2>
+
+        <input type="text" id="name" placeholder="Enter Student Name">
+
+        <input type="text" id="course" placeholder="Enter Course">
+
+        <input type="date" id="date">
+
+        <textarea id="note" rows="4" placeholder="Enter Notes"></textarea>
+
+        <button class="save-btn" onclick="addNote()">
+            Save Note
+        </button>
+
+        <h3>All Notes</h3>
+        <input type="date" id="filterDate">
+        <button onclick="filterNotes()">
+             Filter By Date
+            </button>
+            <button onclick="loadNotes()">
+                 Show All
+                </button>
+
+        <div id="notesList"></div>
+
+    </div>
+
+<script>
+
+async function addNote() {
+
+    const name = document.getElementById("name").value;
+    const course = document.getElementById("course").value;
+    const date = document.getElementById("date").value;
+    const note = document.getElementById("note").value;
+
+    await fetch("/notes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            course,
+            date,
+            note
+        })
+    });
+
+    document.getElementById("name").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("date").value = "";
+    document.getElementById("note").value = "";
+
+    loadNotes();
+}
+
+async function loadNotes() {
+
+    const res = await fetch("/notes");
+    const data = await res.json();
+
+    let output = "";
+
+    data.forEach(item => {
+
+        output += `
+        <div class="card">
+            <b>ID:</b> ${item.id}<br>
+            <b>Name:</b> ${item.name}<br>
+            <b>Course:</b> ${item.course}<br>
+            <b>Date:</b> ${item.date}<br>
+            <b>Notes:</b> ${item.note}<br><br>
+
+            <button class="delete-btn"
+                    onclick="deleteNote(${item.id})">
+                Delete
+            </button>
+        </div>
+        `;
+    });
+
+    document.getElementById("notesList").innerHTML = output;
+}
+
+async function deleteNote(id){
+
+    try {
+
+        const response = await fetch("/notes/" + id, {
+            method: "DELETE"
+        });
+
+        console.log(response);
+
+        loadNotes();
+
+    } catch(error) {
+
+        console.log(error);
+    }
+}
+async function filterNotes() {
+
+    const selectedDate =
+        document.getElementById("filterDate").value;
+
+    const res = await fetch("/notes");
+    const data = await res.json();
+
+    const filteredData = data.filter(item =>
+        item.date === selectedDate
+    );
+
+    let output = "";
+
+    filteredData.forEach(item => {
+
+        output += `
+        <div class="card">
+            <b>ID:</b> ${item.id}<br>
+            <b>Name:</b> ${item.name}<br>
+            <b>Course:</b> ${item.course}<br>
+            <b>Date:</b> ${item.date}<br>
+            <b>Notes:</b> ${item.note}
+        </div>
+        `;
+    });
+
+    document.getElementById("notesList").innerHTML =
+        output;
+}
+
+loadNotes();
+
+</script>
+
+</body>
+</html>
