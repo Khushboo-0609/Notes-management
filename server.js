@@ -1,20 +1,15 @@
 const express = require("express");
-const path = require("path");
-
 const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname));
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
+app.use(express.static("public"));
 
 let notes = [];
 let nextId = 1;
 
 // Add Note
 app.post("/notes", (req, res) => {
+
     const { name, course, date, note } = req.body;
 
     if (!name || !course || !date || !note) {
@@ -43,6 +38,7 @@ app.get("/notes", (req, res) => {
 
 // Update Note
 app.put("/notes/:id", (req, res) => {
+
     const id = parseInt(req.params.id);
 
     const { name, course, date, note } = req.body;
@@ -68,6 +64,7 @@ app.put("/notes/:id", (req, res) => {
 
 // Delete Note
 app.delete("/notes/:id", (req, res) => {
+
     const id = parseInt(req.params.id);
 
     notes = notes.filter(note => note.id !== id);
