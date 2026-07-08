@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.static("_dirname"));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(__dirname +  "/index.html"));
 });
 
 let notes = [];
