@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Daily Notes Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1><i class="fa-solid fa-book"></i> Student Daily Notes Manager</h1>
+
+    <!-- Dashboard -->
+
+    <div class="dashboard">
+
+        <div class="dash-card">
+            <h3>Total Notes</h3>
+            <p id="totalNotes">0</p>
+        </div>
+
+        <div class="dash-card">
+            <h3>Total Students</h3>
+            <p id="totalStudents">0</p>
+        </div>
+
+        <div class="dash-card">
+            <h3>Today's Notes</h3>
+            <p id="todayNotes">0</p>
+        </div>
+
+        <div class="dash-card">
+            <h3>Latest Note</h3>
+            <p id="latestNote">No Notes</p>
+        </div>
+
+    </div>
+
+    <!-- Form -->
+
+    <div class="form-box">
+
+        <label>Student Name *</label>
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter Student Name"
+        >
+
+        <label>Course *</label>
+        <input
+            type="text"
+            id="course"
+            placeholder="Enter Course"
+        >
+
+        <label>Date *</label>
+        <input
+            type="date"
+            id="date"
+        >
+
+        <label>Notes *</label>
+
+        <textarea
+            id="note"
+            rows="5"
+            maxlength="500"
+            placeholder="Enter Notes"
+            onkeyup="countCharacters()"
+        ></textarea>
+
+        <div class="counter">
+            <span id="charCount">0</span>/500 Characters
+        </div>
+
+        <div id="message"></div>
+
+        <div class="btn-group">
+
+            <button
+                class="save-btn"
+                onclick="addNote()">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Note
+
+            </button>
+
+            <button
+                class="reset-btn"
+                onclick="resetForm()">
+
+                <i class="fa-solid fa-rotate"></i>
+                Reset
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchName"
+            placeholder="Search By Student Name"
+            onkeyup="searchNotes()"
+        >
+
+        <input
+            type="text"
+            id="searchCourse"
+            placeholder="Search By Course"
+            onkeyup="searchNotes()"
+        >
+
+        <input
+            type="date"
+            id="filterDate"
+        >
+
+        <button
+            class="filter-btn"
+            onclick="filterNotes()">
+
+            Filter
+
+        </button>
+
+        <button
+            class="show-btn"
+            onclick="loadNotes()">
+
+            Show All
+
+        </button>
+
+    </div>
+
+    <h2>All Notes</h2>
+
+    <div id="notesList"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
