@@ -123,12 +123,12 @@ function displayNotes(data) {
         <p><b>Notes:</b> ${item.note}</p>
 
         <button class="edit-btn"
-        onclick="editNote('${item._id}')">
+        onclick="editNote(${item.id})">
         Edit
         </button>
 
         <button class="delete-btn"
-        onclick="deleteNote('${item._id}')">
+        onclick="deleteNote(${item.id})">
         Delete
         </button>
 
@@ -155,7 +155,7 @@ async function deleteNote(id) {
 // Edit
 function editNote(id) {
 
-    const item = notes.find(n => n._id === id);
+    const item = notes.find(n => n.id === id);
 
     document.getElementById("name").value = item.name;
     document.getElementById("course").value = item.course;
